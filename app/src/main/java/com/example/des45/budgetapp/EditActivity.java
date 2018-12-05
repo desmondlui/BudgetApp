@@ -36,7 +36,6 @@ public class EditActivity extends AppCompatActivity {
     private EditText mContent;
     private Button mSave;
     private Button mCancel;
-    private int databaseID;
     private String mUID;
 
     //variable for the edit from previous
