@@ -319,122 +319,45 @@ public class RecordActivity extends AppCompatActivity {
             getDatabaseIDFromDatabase();
             int recordID = getDatabaseID();
             recordID++;
-            if (recordMode)//expenses
-            {
-                if (isStandard) {
-
-                    //record all the value
-                    Map<String, Object> record = setValueForDatabase(recordID,recordMode,isStandard,value);
-                    mFirestore.collection("users").document(mUID).collection("Record").document(""+recordID)
-                            .set(record)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Toast.makeText(RecordActivity.this, R.string.toaster_saved, Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(RecordActivity.this, R.string.toaster_failed, Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-                    Map<String, Object> record2 = new HashMap<>();
-                    record2.put("id",recordID);
-                    mFirestore.collection("users").document(mUID).set(record2);
-                    finish();
-
-                }
-                else {
-
-                    Map<String, Object> record = setValueForDatabase(recordID,recordMode,isStandard,value);
-                    mFirestore.collection("users").document(mUID).collection("Record").document(""+recordID)
-                            .set(record)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Toast.makeText(RecordActivity.this, R.string.toaster_saved_draft, Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(RecordActivity.this, R.string.toaster_failed, Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-                    Map<String, Object> record2 = new HashMap<>();
-                    record2.put("id",recordID);
-                    mFirestore.collection("users").document(mUID).set(record2)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            finish();
-                        }
-                    });
-                }
+            Map<String, Object> record = setValueForDatabase(recordID, recordMode, isStandard, value);
+            if(isStandard) {
+                mFirestore.collection("users").document(mUID).collection("Record").document("" + recordID)
+                        .set(record)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(RecordActivity.this, R.string.toaster_saved, Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(RecordActivity.this, R.string.toaster_failed, Toast.LENGTH_SHORT).show();
+                            }
+                        });
             }
-            else//income
+            else
             {
-                if (isStandard) {
-                    //record all the value
-                    Map<String, Object> record = setValueForDatabase(recordID,recordMode,isStandard,value);
-                    mFirestore.collection("users").document(mUID).collection("Record").document(""+recordID)
-                            .set(record)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Toast.makeText(RecordActivity.this, R.string.toaster_saved, Toast.LENGTH_SHORT).show();
+                mFirestore.collection("users").document(mUID).collection("Record").document("" + recordID)
+                        .set(record)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(RecordActivity.this, R.string.toaster_saved_draft, Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(RecordActivity.this, R.string.toaster_failed, Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(RecordActivity.this, R.string.toaster_failed, Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-                    Map<String, Object> record2 = new HashMap<>();
-                    record2.put("id",recordID);
-                    mFirestore.collection("users").document(mUID).set(record2)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(Task<Void> task) {
-                            finish();
-                        }
-                    });
-
-                }
-                else {
-                    Map<String, Object> record = setValueForDatabase(recordID,recordMode,isStandard,value);
-                    mFirestore.collection("users").document(mUID).collection("Record").document(""+recordID)
-                            .set(record)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Toast.makeText(RecordActivity.this, R.string.toaster_saved_draft, Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(RecordActivity.this, R.string.toaster_failed, Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-                    Map<String, Object> record2 = new HashMap<>();
-                    record2.put("id",recordID);
-                    mFirestore.collection("users").document(mUID).set(record2)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(Task<Void> task) {
-                            finish();
-                        }
-                    });
-                }
             }
+            Map<String, Object> record2 = new HashMap<>();
+            record2.put("id", recordID);
+            mFirestore.collection("users").document(mUID).set(record2);
+            finish();
         }
         catch (NumberFormatException e)
         {
@@ -452,7 +375,7 @@ public class RecordActivity extends AppCompatActivity {
             record.put("category", recordCategory.getSelectedItem().toString());
             record.put("amount", amount);
             record.put("contents", mContent.getText().toString());
-            record.put("draft", isStandard);
+            record.put("draft", false);
             record.put("year", myCalendar.get(Calendar.YEAR));
             record.put("month", myCalendar.get(Calendar.MONTH) + 1);
             record.put("day", myCalendar.get(Calendar.DAY_OF_MONTH));
@@ -465,7 +388,7 @@ public class RecordActivity extends AppCompatActivity {
             record.put("recordType", recordMode);
             record.put("amount", amount);
             record.put("contents", mContent.getText().toString());
-            record.put("draft", isStandard);
+            record.put("draft", true);
             record.put("year", myCalendar.get(Calendar.YEAR));
             record.put("month", myCalendar.get(Calendar.MONTH)+1);
             record.put("day", myCalendar.get(Calendar.DAY_OF_MONTH));
